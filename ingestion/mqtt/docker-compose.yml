@@ -1,0 +1,35 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    restart: unless-stopped
+
+  simulator:
+    build: .
+    container_name: meteo-simulator
+    depends_on:
+      - mosquitto
+    volumes:
+      - ./data:/data:ro
+    environment:
+      MQTT_HOST: mosquitto
+      MQTT_PORT: "1883"
+      TOPIC_PREFIX: meteo/stations
+      # Source : intel | noaa | synthetic  (se change avec :  MODE=noaa docker compose up -d)
+      MODE: ${MODE:-intel}
+      DATA_FILE: ${DATA_FILE:-/data/data.txt}
+      LOCS_FILE: ${LOCS_FILE:-/data/mote_locs.txt}
+      ISD_HISTORY: ${ISD_HISTORY:-/data/isd-history.csv}
+      REPLAY_RATE: "200"          # messages par seconde
+      REPLAY_LOOP: "false"       # true = recommencer à la fin du fichier
+      REPLAY_MAX_ROWS: "0"       # 0 = tout le fichier
+      # Mode synthétique (secours) :
+      NB_STATIONS: "8"
+      INTERVAL_SECONDS: "2"
+      SIM_STEP_MINUTES: "10"
+      FAULT_RATE: "0.03"
+    restart: unless-stopped
