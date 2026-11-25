@@ -1,0 +1,15 @@
+apiVersion: 1
+datasources:
+  - name: Meteo Gold
+    uid: meteo-pg
+    type: grafana-postgresql-datasource
+    access: proxy
+    url: postgres:5432
+    user: atmos
+    isDefault: true
+    jsonData:
+      database: meteo
+      sslmode: disable
+      postgresVersion: 1600
+    secureJsonData:
+      password: atmos
