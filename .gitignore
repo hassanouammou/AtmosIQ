@@ -1,0 +1,54 @@
+
+# ==================================
+# AtmosIQ - Git Ignore
+# ==================================
+
+# Environment variables / Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Docker
+docker-compose.override.yml
+*.log
+
+# MinIO - Local storage
+minio_data/
+.minio/
+
+# Apache Spark
+spark-warehouse/
+metastore_db/
+derby.log
+checkpoint/
+checkpoints/
+
+# Apache Hudi
+.hoodie/
+.hudi/
+*.parquet
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# Operating systems
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
